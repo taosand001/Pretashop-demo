@@ -1,1 +1,1 @@
-# Pretashop-demo
+# Pretashop-demo UI Test
