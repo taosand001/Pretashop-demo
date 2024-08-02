@@ -11,13 +11,13 @@ let cartPage: Cart;
 
 // Shop Test Suite: Test for the Shop page
 
-test.describe('Search For a Product', () => {
+test.describe('[TC010]: Search For a Product', () => {
 	test.beforeEach(async ({ page }) => {
 		shopPage = new Shop(page);
 		await shopPage.visit();
 	});
 
-	test('[TC010]: Search for a product', async () => {
+	test('Search for a product', async () => {
 		await test.step('1. Should search for a product in the search bar', async () => {
 			await shopPage.searchForProduct(testData.productNames[0]);
 		});
@@ -34,13 +34,13 @@ test.describe('Search For a Product', () => {
 	});
 });
 
-test.describe('Filter and Sort Products', () => {
+test.describe('[TC011]: Filter and Sort Products', () => {
 	test.beforeEach(async ({ page }) => {
 		shopPage = new Shop(page);
 		await shopPage.visit();
 	});
 
-	test('[TC011]: Filter and sort products', async () => {
+	test('Filter and sort products', async () => {
 		await test.step('1. Should filter products by category', async () => {
 			await shopPage.accessoriesCategoryLink.click();
 		});
@@ -73,13 +73,13 @@ test.describe('Filter and Sort Products', () => {
 	});
 });
 
-test.describe('Add Products to Cart', () => {
+test.describe('[TC012]: Add Products to Cart', () => {
 	test.beforeEach(async ({ page }) => {
 		shopPage = new Shop(page);
 		await shopPage.visit();
 	});
 
-	test('[TC012]: Add products to the cart', async ({ page }) => {
+	test('Add products to the cart', async ({ page }) => {
 		await test.step('1. Select the product from the list', async () => {
 			await shopPage.clickOnProductItem(testData.productNames[0]);
 			dialog = new ShopDialog(page, 'quickview-modal-1-1');
