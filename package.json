@@ -1,0 +1,28 @@
+{
+	"name": "playwright-demo-project",
+	"version": "1.0.0",
+	"description": "This is a project to test pretashop demo using page objects and factory",
+	"main": "index.ts",
+	"scripts": {
+		"test": "npx playwright test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/taosand001/Pretashop-demo.git"
+	},
+	"keywords": [
+		"playwright",
+		"page-objects",
+		"demo"
+	],
+	"author": "Taofeek Adesina",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/taosand001/Pretashop-demo/issues"
+	},
+	"homepage": "https://github.com/taosand001/Pretashop-demo#readme",
+	"devDependencies": {
+		"@playwright/test": "^1.45.3",
+		"@types/node": "^22.0.2"
+	}
+}
