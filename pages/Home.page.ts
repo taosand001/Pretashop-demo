@@ -29,4 +29,10 @@ export default class Home extends Base {
 		await this.signInButton.waitFor();
 		await this.signInButton.click();
 	}
+
+	// search for a product
+	async searchForProduct(productName: string): Promise<void> {
+		await this.searchWidgetInputField.fill(productName);
+		await this.searchWidgetInputField.press('Enter');
+	}
 }
