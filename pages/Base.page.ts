@@ -22,7 +22,6 @@ export default abstract class Base {
 	async visit(url: string = testData.testUrl) {
 		await this.page.goto(url);
 		await this.page.waitForLoadState('domcontentloaded');
-		await this.loadingMessagSpinner.waitFor({ state: 'hidden' });
 	}
 
 	// method to wait for the spinner to be hidden
