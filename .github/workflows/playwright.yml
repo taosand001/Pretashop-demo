@@ -36,4 +36,4 @@ jobs:
               with:
                   name: Playwright Test Report
                   path: playwright-report/*.xml
-                  reporter: junit
+                  reporter: java-junit
