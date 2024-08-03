@@ -12,3 +12,10 @@ export enum SortOptions {
 	Relevance = 'Relevance',
 	Sales = 'Sales, highest to lowest',
 }
+
+export enum Timeout {
+	Short = 5000,
+	Medium = 10000,
+	Long = 30000,
+	LongTest = 70000,
+}

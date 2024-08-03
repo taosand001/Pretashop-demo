@@ -29,13 +29,15 @@ export default class Signup extends Base {
 		this.mrsRadioButton = this.frame.locator('#field-id_gender-2');
 		this.firstNameInputField = this.frame.locator('#field-firstname');
 		this.lastNameInputField = this.frame.locator('#field-lastname');
-		this.emailInputField = this.frame.locator('#field-email');
-		this.passwordInputField = this.frame.locator('#field-password');
-		this.birthDateInputField = this.frame.locator('#field-birthday');
-		this.recieveOffersCheckbox = this.frame.locator('input[name="optin"]');
-		this.privacyPolicyCheckbox = this.frame.locator('input[name="psgdpr"]');
-		this.customerPrivacyPolicyCheckbox = this.frame.locator('input[name="customer_privacy"]');
-		this.saveButton = this.frame.locator('button[data-link-action="save-customer"]');
+		this.emailInputField = this.frame.locator('#field-email').first();
+		this.passwordInputField = this.frame.locator('#field-password').first();
+		this.birthDateInputField = this.frame.locator('#field-birthday').first();
+		this.recieveOffersCheckbox = this.frame.locator('input[name="optin"]').first();
+		this.privacyPolicyCheckbox = this.frame.locator('input[name="psgdpr"]').first();
+		this.customerPrivacyPolicyCheckbox = this.frame
+			.locator('input[name="customer_privacy"]')
+			.first();
+		this.saveButton = this.frame.locator('button[data-link-action="save-customer"]').first();
 	}
 
 	async clickLoginTextButton(): Promise<Login> {
@@ -57,6 +59,6 @@ export default class Signup extends Base {
 		await this.recieveOffersCheckbox.check();
 		await this.privacyPolicyCheckbox.check();
 		await this.customerPrivacyPolicyCheckbox.check();
-		await this.saveButton.click();
+		await this.saveButton.first().click();
 	}
 }

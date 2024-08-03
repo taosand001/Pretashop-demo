@@ -5,6 +5,15 @@ export const testData = {
 	waitingMessage: 'A shop is on its way and will take a few seconds to be available.',
 	existingEmailMessage: 'The email is already used, please choose another one or sign in',
 	productNames: ['Hummingbird printed t-shirt', 'Hummingbird printed sweater'],
+	addressInfo: {
+		address: '123 Main St',
+		city: 'New York',
+		state: 'New York',
+		zipCode: '10001',
+	},
+	signInText: 'You need to be logged in to save products in your wishlist.',
+	favoriteBorder: 'favorite_border',
+	favorite: 'favorite',
 };
 
 export const userInformation = {

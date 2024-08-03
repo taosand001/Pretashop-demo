@@ -1,6 +1,8 @@
 import { Locator, Page } from '@playwright/test';
 import Home from './Home.page';
 import FilterSort from './FilterSort.page';
+import ShopDialog from './dialogs/ShopDialog.page';
+import Cart from './Cart.page';
 
 export default class Shop extends Home {
 	page: Page;
@@ -16,6 +18,9 @@ export default class Shop extends Home {
 	productTitleText: Locator;
 	productsContainer: Locator;
 	filterPage: FilterSort;
+	wishListButton: (itemName: string) => Locator;
+	wishListLink: Locator;
+	wishListIconText: (itemName: string) => Locator;
 
 	constructor(page: Page) {
 		super(page);
@@ -34,7 +39,18 @@ export default class Shop extends Home {
 				.locator('a[data-link-action="quickview"]');
 		this.productTitleText = this.frame.locator('.product-title');
 		this.productsContainer = this.frame.locator('#content-wrapper');
+		this.wishListButton = (itemName: string) =>
+			this.frame
+				.locator('.js-product', { has: this.page.getByText(itemName, { exact: true }) })
+				.locator('.wishlist-button-add')
+				.first();
+		this.wishListLink = this.frame.locator('.wishlist-list-item');
 		this.filterPage = new FilterSort(page);
+		this.wishListIconText = (itemName: string) =>
+			this.frame
+				.locator('.js-product', { has: this.page.getByText(itemName, { exact: true }) })
+				.locator('.wishlist-button-add')
+				.locator('i');
 	}
 
 	async getProductTitleText(): Promise<string | null> {
@@ -53,5 +69,23 @@ export default class Shop extends Home {
 	async clickOnProductItem(itemText: string) {
 		await this.getProductItem(itemText).first().hover();
 		await this.getProductItem(itemText).first().click();
+	}
+
+	async addProductToCart(itemText: string) {
+		await this.clickOnProductItem(itemText);
+		let dialog = new ShopDialog(this.page, 'quickview-modal-1-1');
+		await dialog.addTocartButton.click();
+		dialog = new ShopDialog(this.page, 'blockcart-modal');
+		await dialog.proceedToCheckoutButton.click();
+		let cart = new Cart(this.page);
+		await cart.proceedToCheckoutButton.click();
+	}
+
+	async clickWishListButton(itemName: string) {
+		await this.wishListButton(itemName).click();
+	}
+
+	async getWishListIconText(itemName: string) {
+		return this.wishListIconText(itemName).first().textContent();
 	}
 }

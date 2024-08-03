@@ -1,13 +1,19 @@
 import { test, expect } from '@playwright/test';
 import Shop from '../pages/Shop.page';
 import { testData } from '../data/test-data';
-import { SortOptions } from '../data/enum';
+import { Gender, SortOptions, Timeout } from '../data/enum';
 import ShopDialog from '../pages/dialogs/ShopDialog.page';
 import Cart from '../pages/Cart.page';
+import PersonalInfomation from '../pages/PersonalInfomation.page';
+import Login from '../pages/Login.page';
+import Signup from '../pages/Signup.page';
 
 let shopPage: Shop;
 let dialog: ShopDialog;
 let cartPage: Cart;
+let personalInformationPage: PersonalInfomation;
+let loginPage: Login;
+let signupPage: Signup;
 
 // Shop Test Suite: Test for the Shop page
 
@@ -99,6 +105,86 @@ test.describe('[TC012]: Add Products to Cart', () => {
 				await cartPage.checkValueInProductTitles(testData.productNames[0]),
 				'The product name does not match'
 			).toBeTruthy();
+		});
+	});
+});
+
+test.describe('[TC013]: Procceed to Checkout and Payment page', () => {
+	test.setTimeout(Timeout.LongTest);
+	test.beforeEach(async ({ page }) => {
+		shopPage = new Shop(page);
+		await shopPage.visit();
+	});
+
+	test('Proceed to checkout and payment page', async ({ page }) => {
+		await test.step('1. Add product to cart and procceed to checkout', async () => {
+			await shopPage.addProductToCart(testData.productNames[0]);
+		});
+
+		await test.step('2. Should proceed to the payment page', async () => {
+			personalInformationPage = new PersonalInfomation(page);
+			await personalInformationPage.addAdress();
+			await personalInformationPage.continueButton.last().click();
+			await personalInformationPage.continueButton.last().click();
+			await personalInformationPage.approvalCheckbox.click({ force: true });
+			await expect(
+				personalInformationPage.placeOrderButton,
+				'Place order button is visible'
+			).toBeVisible();
+			await expect(
+				personalInformationPage.placeOrderButton,
+				'Place order button is enabled'
+			).toBeDisabled();
+		});
+	});
+});
+
+test.describe('[TC014]: Add Product to Wishlist without sign in', () => {
+	test.beforeEach(async ({ page }) => {
+		shopPage = new Shop(page);
+		await shopPage.visit();
+	});
+
+	test('Add product to wishlist', async () => {
+		await test.step('1. Add product to wishlist', async () => {
+			await shopPage.clickWishListButton(testData.productNames[0]);
+		});
+
+		await test.step('2. Should display a popup with sign in information', async () => {
+			await expect(
+				shopPage.getText(testData.signInText),
+				'Sign in text is not visible'
+			).toBeVisible();
+		});
+	});
+});
+
+test.describe('[TC015]: Add Product to Wishlist after sign in', () => {
+	test.beforeEach(async ({ page }) => {
+		shopPage = new Shop(page);
+		await shopPage.visit();
+		await shopPage.signInButton.click();
+		loginPage = new Login(page);
+		await loginPage.clickSignupTextButton();
+		signupPage = new Signup(page);
+		await signupPage.createUser(Gender.Male);
+	});
+
+	test('Add product to wishlist after sign in', async () => {
+		await test.step('1. Add product to wishlist after sign in', async () => {
+			expect(
+				await shopPage.getWishListIconText(testData.productNames[0]),
+				'The product is already favorite'
+			).toEqual(testData.favoriteBorder);
+			await shopPage.clickWishListButton(testData.productNames[0]);
+			await shopPage.wishListLink.click();
+		});
+
+		await test.step('2. Should display the product in the wishlist', async () => {
+			expect(
+				await shopPage.getWishListIconText(testData.productNames[0]),
+				'The product is not favorited'
+			).toEqual(testData.favorite);
 		});
 	});
 });

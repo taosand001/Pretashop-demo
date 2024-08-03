@@ -12,7 +12,7 @@ export default abstract class Base {
 	constructor(page: Page) {
 		this.page = page;
 		this.frame = this.page.frameLocator('#framelive')!;
-		this.getText = (text: string) => this.page.getByText(text, { exact: true });
+		this.getText = (text: string) => this.frame.getByText(text, { exact: true });
 		this.loadingMessagSpinner = this.page.locator('#loadingMessage');
 		this.getAllTextContents = (searchElement: string) => this.frame.locator(searchElement);
 		this.spinner = this.frame.locator('.spinner');
