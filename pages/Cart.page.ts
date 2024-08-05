@@ -25,7 +25,7 @@ export default class Cart extends Base {
 			this.frame.locator('.js-increase-product-quantity').nth(index);
 		this.decreaseCartQuantityButtonAtIndex = (index: number) =>
 			this.frame.locator('.js-decrease-product-quantity').nth(index);
-		this.cartProductsCount = this.frame.locator('.cart-products-count');
+		this.cartProductsCount = this.frame.locator('.cart-products-count').first();
 		this.cartQuantityInputValueAtIndex = (index: number) =>
 			this.frame.locator('.js-cart-line-product-quantity').nth(index);
 		this.productNames = this.frame.locator('.product-line-info');
